@@ -1,7 +1,7 @@
 # Shawarma.AspNetCore
 
 [![Build Status](https://travis-ci.org/CenterEdge/Shawarma.AspNetCore.svg?branch=master)](https://travis-ci.org/CenterEdge/Shawarma.AspNetCore)
-[![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Shawarma.AspNetCore.svg)](https://github.com/CenterEdge/Shawarma.AspNetCore)
+[![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Shawarma.AspNetCore.svg)](https://www.nuget.org/packages/Shawarma.AspNetCore)
 
 ASP.NET Core middleware and service hosting library designed to interact with Shawarma. This allows
 background services, implemented similarly to [IHostedService](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-2.2&tabs=visual-studio),
