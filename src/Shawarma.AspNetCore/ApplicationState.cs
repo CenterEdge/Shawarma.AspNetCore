@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -12,7 +12,7 @@ namespace Shawarma.AspNetCore
         /// <summary>
         /// Status of the application.
         /// </summary>
-        [JsonProperty(PropertyName = "state")]
+        [JsonProperty(PropertyName = "status")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ApplicationStatus Status { get; set; }
     }
