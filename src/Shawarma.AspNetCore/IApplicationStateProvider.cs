@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Primitives;
 
@@ -19,13 +19,13 @@ namespace Shawarma.AspNetCore
         /// Get the current application state.
         /// </summary>
         /// <returns>The <see cref="ApplicationState"/>.</returns>
-        ValueTask<ApplicationState> GetApplicationState();
+        ValueTask<ApplicationState> GetApplicationStateAsync();
 
         /// <summary>
         /// Sets the current application state.
         /// </summary>
         /// <param name="state">The new <see cref="ApplicationState"/>.</param>
         /// <returns>The <see cref="ApplicationState"/>.</returns>
-        Task SetApplicationState(ApplicationState state);
+        Task SetApplicationStateAsync(ApplicationState state);
     }
 }

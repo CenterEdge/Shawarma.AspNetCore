@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -52,12 +52,6 @@ namespace Shawarma.AspNetCore
 
         private bool RequestingApplicationState(HttpRequest request, out RouteValueDictionary routeValues)
         {
-            if (!HttpMethods.IsGet(request.Method) && !HttpMethods.IsPost(request.Method))
-            {
-                routeValues = null;
-                return false;
-            }
-
             routeValues = new RouteValueDictionary();
             return _requestMatcher.TryMatch(request.Path, routeValues);
         }

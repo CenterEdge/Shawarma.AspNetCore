@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
@@ -54,7 +54,7 @@ namespace Shawarma.AspNetCore.Internal
             {
                 _logger.LogDebug("Received Shawarma GET");
 
-                var state = await _stateProvider.GetApplicationState();
+                var state = await _stateProvider.GetApplicationStateAsync();
 
                 await ReturnState(httpContext.Response, state);
             }
@@ -103,7 +103,7 @@ namespace Shawarma.AspNetCore.Internal
                     }
                 }
 
-                await _stateProvider.SetApplicationState(state);
+                await _stateProvider.SetApplicationStateAsync(state);
 
                 // Reserialize the state onto the response
                 await ReturnState(httpContext.Response, state);

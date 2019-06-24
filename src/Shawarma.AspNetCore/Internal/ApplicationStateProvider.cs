@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -9,7 +9,7 @@ namespace Shawarma.AspNetCore.Internal
     /// <summary>
     /// Default implementation of <see cref="IApplicationStateProvider"/>.
     /// </summary>
-    public class ApplicationStateProvider : IApplicationStateProvider
+    internal class ApplicationStateProvider : IApplicationStateProvider
     {
         private readonly ILogger<ApplicationStateProvider> _logger;
         private volatile ApplicationState _state;
@@ -29,13 +29,13 @@ namespace Shawarma.AspNetCore.Internal
         public IChangeToken GetChangeToken() => _changeToken;
 
         /// <inheritdoc />
-        public ValueTask<ApplicationState> GetApplicationState()
+        public ValueTask<ApplicationState> GetApplicationStateAsync()
         {
             return new ValueTask<ApplicationState>(_state);
         }
 
         /// <inheritdoc />
-        public Task SetApplicationState(ApplicationState state)
+        public Task SetApplicationStateAsync(ApplicationState state)
         {
             if (state == null)
             {

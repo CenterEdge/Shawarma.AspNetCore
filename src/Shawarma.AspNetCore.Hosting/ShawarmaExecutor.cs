@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,7 +41,7 @@ namespace Shawarma.AspNetCore.Hosting
                 () => _stateProvider.GetChangeToken(),
                 HandleStateChange);
 
-            var state = await _stateProvider.GetApplicationState();
+            var state = await _stateProvider.GetApplicationStateAsync();
             await ExecuteAsync(service => service.UpdateStateAsync(state, cancellationToken));
         }
 
@@ -59,7 +59,7 @@ namespace Shawarma.AspNetCore.Hosting
             {
                 try
                 {
-                    var state = await _stateProvider.GetApplicationState();
+                    var state = await _stateProvider.GetApplicationStateAsync();
                     _logger.LogInformation("Handling Shawarma State Change: {status}", state.Status);
                     await ExecuteAsync(service => service.UpdateStateAsync(state, CancellationToken.None));
                 }

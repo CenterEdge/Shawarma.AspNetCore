@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -30,6 +30,11 @@ namespace Shawarma.AspNetCore.Hosting
         /// <inheritdoc />
         public Task UpdateStateAsync(ApplicationState state, CancellationToken cancellationToken)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
             var desiredRunState = GetDesiredRunState(state);
 
             if (desiredRunState && !IsRunning)
@@ -40,7 +45,12 @@ namespace Shawarma.AspNetCore.Hosting
                 return StartInternalAsync(cancellationToken);
             }
 
-            return StopAsync(cancellationToken);
+            if (!desiredRunState)
+            {
+                return StopAsync(cancellationToken);
+            }
+
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />
