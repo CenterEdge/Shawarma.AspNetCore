@@ -1,0 +1,54 @@
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+
+namespace Shawarma.AspNetCore.Internal
+{
+    /// <summary>
+    /// Default implementation of <see cref="IApplicationStateProvider"/>.
+    /// </summary>
+    public class ApplicationStateProvider : IApplicationStateProvider
+    {
+        private readonly ILogger<ApplicationStateProvider> _logger;
+        private volatile ApplicationState _state;
+        private ApplicationStateChangeToken _changeToken = new ApplicationStateChangeToken();
+
+        public ApplicationStateProvider(ILogger<ApplicationStateProvider> logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            _state = new ApplicationState
+            {
+                Status = ApplicationStatus.Inactive
+            };
+        }
+
+        /// <inheritdoc />
+        public IChangeToken GetChangeToken() => _changeToken;
+
+        /// <inheritdoc />
+        public ValueTask<ApplicationState> GetApplicationState()
+        {
+            return new ValueTask<ApplicationState>(_state);
+        }
+
+        /// <inheritdoc />
+        public Task SetApplicationState(ApplicationState state)
+        {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            _logger.LogDebug("Received application state change: {status}", state.Status);
+            _state = state;
+
+            var changeToken = Interlocked.Exchange(ref _changeToken, new ApplicationStateChangeToken());
+            changeToken.OnStateChange();
+
+            return Task.CompletedTask;
+        }
+    }
+}
