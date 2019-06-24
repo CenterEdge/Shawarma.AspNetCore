@@ -1,0 +1,22 @@
+dist: xenial
+language: csharp
+mono: none
+dotnet: 2.2
+env:
+  global:
+  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+  - DOTNET_CLI_TELEMETRY_OPTOUT=1
+  # NUGET_API_KEY
+  - secure: sl/bvcQ/YMBTfDErfHS6O1SFjFlt+0tBsXPsQfb2i2F7DqUzJqldquTibQ4FPoyXUqlfb1RigR8ipTCXuooRNk0lv5YJL8Q2w99zNuzkOz1+ZNWuRtXpz96LUf35/fu4YVihYORj5FOFhlOAVZ1QIHqsxIUWfeijaWbLOYNhdhXkdooBgwVaZjeykJnhUKZ9JIDJ5vOgrtodyYKZyIzwhMaSMlwH6knJIkT0wcBSm7xH+DzRXZ1CchFs0zLU2z0QVQ+MyVVS8atv0z2neE6d9CfisFLYzu7vPE+CPG7ZYFeuwFo3YTbmFqvcSlswNrqpDG6k3hcQRwm5m07JRAPQmNto0z2qkJea2yj+9GkD0jDsSzR/+9RyezGNGHSQGXlqTEQfuVgEJxsLaq+9ZdKPAPse+wQxCkM+yBylLiPTv7ieVVpHbovgugftoBYZ6xBnHVGWiH+Z/3e5iaJUpNfM0boKR5xJLyOynhAmxuLRwGMzLL1j3GReO4NJ82Dj3DyNhcwU8FQiPkCjg4Rb+SG705iYKejYMnHyuCnU1fj6gybECqDZZjy1XLI7koK5YJO5KdFL38n52Gk1AayqQLLXjvGSL+LAhnGqmlI0nljREBBt+vX03W5JvtQd+ZMQ9vEpkMout1DvguQvXGfwquAxm5txyPED8VmmTIXqB+BuYS4=
+install:
+- dotnet restore src/Shawarma.AspNetCore.sln
+script:
+- dotnet build -c Release /p:Version=${TRAVIS_TAG:-1.0.0} src/Shawarma.AspNetCore.sln
+- dotnet test --no-build -c Release src/Shawarma.UnitTests/Shawarma.UnitTests.csproj
+- dotnet pack --no-build -c Release /p:Version=${TRAVIS_TAG:-1.0.0} src/Shawarma.AspNetCore.sln
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: dotnet nuget push -s https://api.nuget.org/v3/index.json -k "${NUGET_API_KEY}" **/*.${TRAVIS_TAG}.nupkg
+  on:
+    tags: true
