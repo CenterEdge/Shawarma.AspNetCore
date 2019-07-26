@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Primitives;
 
-namespace Shawarma.AspNetCore
+namespace Shawarma
 {
     /// <summary>
     /// Provides the current <see cref="ApplicationState"/> with a <see cref="IChangeToken"/> to monitor for state changes.

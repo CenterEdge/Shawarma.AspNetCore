@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
-namespace Shawarma.AspNetCore
+// ReSharper disable once CheckNamespace
+namespace Shawarma
 {
     /// <summary>
     /// Status of the application.

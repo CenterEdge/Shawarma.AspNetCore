@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shawarma.AspNetCore.Test", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shawarma.AspNetCore.Hosting", "Shawarma.AspNetCore.Hosting\Shawarma.AspNetCore.Hosting.csproj", "{67C7EB29-F83E-4744-A5AB-7B84D41C5080}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shawarma.UnitTests", "Shawarma.UnitTests\Shawarma.UnitTests.csproj", "{5C6E63BD-7A42-4288-9DBA-F5E4B6E02E7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shawarma.UnitTests", "Shawarma.UnitTests\Shawarma.UnitTests.csproj", "{5C6E63BD-7A42-4288-9DBA-F5E4B6E02E7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shawarma.Abstractions", "Shawarma.Abstractions\Shawarma.Abstractions.csproj", "{1C8EB778-F5AE-4531-A087-CEAA48637460}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5C6E63BD-7A42-4288-9DBA-F5E4B6E02E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C6E63BD-7A42-4288-9DBA-F5E4B6E02E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C6E63BD-7A42-4288-9DBA-F5E4B6E02E7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C8EB778-F5AE-4531-A087-CEAA48637460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C8EB778-F5AE-4531-A087-CEAA48637460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C8EB778-F5AE-4531-A087-CEAA48637460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C8EB778-F5AE-4531-A087-CEAA48637460}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

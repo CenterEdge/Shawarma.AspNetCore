@@ -2,7 +2,8 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Shawarma.AspNetCore
+// ReSharper disable once CheckNamespace
+namespace Shawarma
 {
     /// <summary>
     /// Represents the current application state as provided by Shawarma via the endpoint.

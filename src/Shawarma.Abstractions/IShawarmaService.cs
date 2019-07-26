@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Shawarma.AspNetCore.Hosting
+// ReSharper disable once CheckNamespace
+namespace Shawarma
 {
     /// <summary>
     /// An service which is stopped and started based on Shawarma's <see cref="ApplicationState"/>.
