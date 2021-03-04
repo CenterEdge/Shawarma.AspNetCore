@@ -17,24 +17,28 @@ For more details about Shawarma, see <https://github.com/CenterEdge/shawarma>.
 public void ConfigureServices(IServiceCollection services)
 {
     services
+        .AddRouting()
         .AddShawarmaHosting()
         // Add any IShawarmaService instances to be managed
         .AddShawarmaService<TestService>();
 }
 
-public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
     }
 
-    // Add before MVC or other handlers
-    app.UseShawarma();
-
-    app.Run(async (context) =>
+    app.UseRouting();
+    app.UseEndpoints(endpoints =>
     {
-        await context.Response.WriteAsync("Hello World!");
+        endpoints.MapShawarma();
+
+        endpoints.MapGet("", async context =>
+        {
+            await context.Response.WriteAsync("Hello World!");
+        });
     });
 }
 ```
@@ -58,5 +62,27 @@ public class TestService : GenericShawarmaService
         // Stop doing work here
         return Task.CompletedTask;
     }
+}
+```
+
+## Older .NET Core Versions
+
+Older versions of .NET Core (2.1 and 3.1) are supported using middleware instead of endpoint routing.
+
+```cs
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    // Add before MVC or other handlers
+    app.UseShawarma();
+
+    app.Run(async (context) =>
+    {
+        await context.Response.WriteAsync("Hello World!");
+    });
 }
 ```

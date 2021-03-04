@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -31,7 +30,7 @@ namespace Shawarma.AspNetCore.Internal
         }
 
         /// <inheritdoc />
-        public Task HandleRequest(HttpContext httpContext, RouteValueDictionary routeValues)
+        public Task HandleRequest(HttpContext httpContext)
         {
             if (HttpMethods.IsGet(httpContext.Request.Method))
             {
