@@ -39,7 +39,7 @@ namespace Shawarma.AspNetCore
 
         public async Task Invoke(HttpContext httpContext)
         {
-            if (!RequestingApplicationState(httpContext.Request, out RouteValueDictionary routeValues))
+            if (!RequestingApplicationState(httpContext.Request, out _))
             {
                 // Ignore and pass to next middleware
                 await _next(httpContext);
@@ -47,7 +47,7 @@ namespace Shawarma.AspNetCore
             }
 
             // Forward to the request handler
-            await _requestHandler.HandleRequest(httpContext, routeValues);
+            await _requestHandler.HandleRequest(httpContext);
         }
 
         private bool RequestingApplicationState(HttpRequest request, out RouteValueDictionary routeValues)
