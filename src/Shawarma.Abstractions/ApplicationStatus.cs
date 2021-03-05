@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Shawarma
@@ -9,10 +8,7 @@ namespace Shawarma
     /// </summary>
     public enum ApplicationStatus
     {
-        [EnumMember(Value = "active")]
         Active,
-
-        [EnumMember(Value = "inactive")]
         Inactive
     }
 }

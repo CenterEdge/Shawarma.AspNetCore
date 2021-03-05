@@ -1,13 +1,10 @@
 using System;
-using System.IO;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace Shawarma.AspNetCore.Internal
 {
@@ -16,7 +13,14 @@ namespace Shawarma.AspNetCore.Internal
     /// </summary>
     internal class ShawarmaRequestHandler : IShawarmaRequestHandler
     {
-        private static readonly UTF8Encoding Utf8NoBom = new UTF8Encoding(false);
+        private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
+        };
 
         private readonly IApplicationStateProvider _stateProvider;
         private readonly ILogger<ShawarmaRequestHandler> _logger;
@@ -79,28 +83,7 @@ namespace Shawarma.AspNetCore.Internal
                     httpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
                 }
 
-                if (!request.Body.CanSeek)
-                {
-                    // JSON.Net does synchronous reads. In order to avoid blocking on the stream, we asynchronously
-                    // read everything into a buffer, and then seek back to the beginning.
-                    request.EnableBuffering();
-
-                    await request.Body.DrainAsync(CancellationToken.None);
-                    request.Body.Seek(0L, SeekOrigin.Begin);
-                }
-
-                ApplicationState state;
-                // Don't use NoBom encoding on read as it's unnecessary, and the built-in encoder has some optimizations
-                using (var streamReader = new StreamReader(request.Body, Encoding.UTF8))
-                {
-                    using (var jsonReader = new JsonTextReader(streamReader))
-                    {
-                        jsonReader.CloseInput = false;
-
-                        var serializer = new JsonSerializer();
-                        state = serializer.Deserialize<ApplicationState>(jsonReader);
-                    }
-                }
+                var state = await JsonSerializer.DeserializeAsync<ApplicationState>(request.Body, SerializerOptions, httpContext.RequestAborted);
 
                 await _stateProvider.SetApplicationStateAsync(state);
 
@@ -114,24 +97,12 @@ namespace Shawarma.AspNetCore.Internal
             }
         }
 
-        private async Task ReturnState(HttpResponse response, ApplicationState state)
+        private Task ReturnState(HttpResponse response, ApplicationState state)
         {
             response.StatusCode = 200;
             response.ContentType = "application/json; charset=utf-8";
 
-            using (var streamWriter = new StreamWriter(response.Body, Utf8NoBom))
-            {
-                using (var jsonWriter = new JsonTextWriter(streamWriter))
-                {
-                    jsonWriter.CloseOutput = false;
-                    jsonWriter.AutoCompleteOnClose = false;
-
-                    var serializer = new JsonSerializer();
-                    serializer.Serialize(jsonWriter, state);
-                }
-
-                await streamWriter.FlushAsync();
-            }
+            return JsonSerializer.SerializeAsync(response.Body, state, SerializerOptions, response.HttpContext.RequestAborted);
         }
     }
 }
