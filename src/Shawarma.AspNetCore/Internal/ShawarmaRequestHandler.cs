@@ -85,7 +85,10 @@ namespace Shawarma.AspNetCore.Internal
 
                 var state = await JsonSerializer.DeserializeAsync<ApplicationState>(request.Body, SerializerOptions, httpContext.RequestAborted);
 
-                await _stateProvider.SetApplicationStateAsync(state);
+                if (state is not null)
+                {
+                    await _stateProvider.SetApplicationStateAsync(state);
+                }
 
                 // Reserialize the state onto the response
                 await ReturnState(httpContext.Response, state);
@@ -97,7 +100,7 @@ namespace Shawarma.AspNetCore.Internal
             }
         }
 
-        private Task ReturnState(HttpResponse response, ApplicationState state)
+        private Task ReturnState(HttpResponse response, ApplicationState? state)
         {
             response.StatusCode = 200;
             response.ContentType = "application/json; charset=utf-8";

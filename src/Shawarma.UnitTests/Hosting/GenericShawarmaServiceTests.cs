@@ -53,7 +53,7 @@ namespace Shawarma.UnitTests.Hosting
 
             // Act/Assert
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => mock.Object.UpdateStateAsync(null, CancellationToken.None));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => mock.Object.UpdateStateAsync(null!, CancellationToken.None));
         }
 
         [Fact]
