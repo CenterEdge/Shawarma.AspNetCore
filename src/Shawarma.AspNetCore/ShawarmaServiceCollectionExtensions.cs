@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shawarma.AspNetCore.Internal;
@@ -27,7 +27,7 @@ namespace Shawarma.AspNetCore
         /// <param name="setupAction">Action to configure <see cref="ShawarmaOptions"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddShawarma(this IServiceCollection services,
-            Action<ShawarmaOptions> setupAction)
+            Action<ShawarmaOptions>? setupAction)
         {
             if (services == null)
             {

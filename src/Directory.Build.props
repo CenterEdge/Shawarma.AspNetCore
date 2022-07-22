@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <Copyright>Copyright (c) 2019-2022 CenterEdge Software</Copyright>
+    <Authors>btburnett3</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageTags>Shawarma;ASP.NET;Kubernetes</PackageTags>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+</Project>

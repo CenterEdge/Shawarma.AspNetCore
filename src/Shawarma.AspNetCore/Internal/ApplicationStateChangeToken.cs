@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using Microsoft.Extensions.Primitives;
 
@@ -18,7 +18,7 @@ namespace Shawarma.AspNetCore.Internal
         public bool HasChanged => _cts.IsCancellationRequested;
 
         /// <inheritdoc/>
-        public IDisposable RegisterChangeCallback(Action<object> callback, object state) => _cts.Token.Register(callback, state);
+        public IDisposable RegisterChangeCallback(Action<object?> callback, object state) => _cts.Token.Register(callback, state);
 
         /// <summary>
         /// Triggers the token once a state change occurs.

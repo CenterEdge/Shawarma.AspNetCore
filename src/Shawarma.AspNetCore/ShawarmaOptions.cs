@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Routing;
 using Shawarma.AspNetCore.Internal;
 
@@ -17,6 +17,6 @@ namespace Shawarma.AspNetCore
         /// <summary>
         /// Default route values.
         /// </summary>
-        public RouteValueDictionary RouteDefaults { get; set; }
+        public RouteValueDictionary? RouteDefaults { get; set; }
     }
 }

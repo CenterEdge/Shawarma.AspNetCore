@@ -17,7 +17,7 @@ namespace Shawarma.AspNetCore.Hosting
         private readonly IEnumerable<IShawarmaService> _services;
         private readonly ILogger<ShawarmaExecutor> _logger;
 
-        private IDisposable _changeHandler;
+        private IDisposable? _changeHandler;
 
         /// <summary>
         /// Creates a new <see cref="ShawarmaExecutor"/>.
@@ -73,7 +73,7 @@ namespace Shawarma.AspNetCore.Hosting
         // Note: Borrowed from ASP.NET Core HostedServiceExecutor
         private async Task ExecuteAsync(Func<IShawarmaService, Task> callback, bool throwOnFirstFailure = true)
         {
-            List<Exception> exceptions = null;
+            List<Exception>? exceptions = null;
 
             foreach (var service in _services)
             {

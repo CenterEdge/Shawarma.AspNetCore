@@ -1,18 +1,23 @@
-﻿using System;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Shawarma.AspNetCore;
+using Shawarma.AspNetCore.Hosting;
+using Shawarma.AspNetCore.Test;
 
-namespace Shawarma.AspNetCore.Test
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddShawarmaHosting()
+    .AddShawarmaService<TestService>();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+    app.UseDeveloperExceptionPage();
 }
+
+app.MapShawarma();
+app.MapGet("/", () => "Hello World!");
+
+await app.RunAsync();
