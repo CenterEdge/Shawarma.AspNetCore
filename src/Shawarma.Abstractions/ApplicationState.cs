@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
 namespace Shawarma
@@ -12,5 +13,13 @@ namespace Shawarma
         /// Status of the application.
         /// </summary>
         public ApplicationStatus Status { get; set; }
+
+        /// <summary>
+        /// List of services which are active.
+        /// </summary>
+        /// <remarks>
+        /// Requires Shawarma 1.1.
+        /// </remarks>
+        public List<string> ActiveServices { get; set; } = new();
     }
 }
