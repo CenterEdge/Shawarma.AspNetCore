@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Shawarma.Abstractions\Shawarma.Abstractions.csproj" />
   </ItemGroup>
 
