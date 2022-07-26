@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shawarma.AspNetCore.Hosting
@@ -28,7 +29,11 @@ namespace Shawarma.AspNetCore.Hosting
         /// <typeparam name="TShawarmaService">An implementation of <see cref="IShawarmaService"/>.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddShawarmaService<TShawarmaService>(this IServiceCollection services)
+        public static IServiceCollection AddShawarmaService<
+#if NET6_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+#endif
+            TShawarmaService>(this IServiceCollection services)
             where TShawarmaService : class, IShawarmaService
             => services.AddTransient<IShawarmaService, TShawarmaService>();
     }

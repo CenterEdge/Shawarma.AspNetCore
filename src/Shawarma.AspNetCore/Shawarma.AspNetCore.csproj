@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
+    <IsTrimmable Condition=" '$(TargetFramework)' == 'net6.0' ">true</IsTrimmable>
 
     <Description>ASP.NET Core Middleware for handling requests from Shawarma regarding application state.</Description>
   </PropertyGroup>
