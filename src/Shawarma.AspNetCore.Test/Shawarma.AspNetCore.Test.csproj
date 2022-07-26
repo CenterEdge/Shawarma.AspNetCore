@@ -4,11 +4,19 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <PublishTrimmed>true</PublishTrimmed>
+    <!-- Prevent warnings from unused code in dependencies -->
+    <TrimmerDefaultAction>link</TrimmerDefaultAction>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Shawarma.AspNetCore.Hosting\Shawarma.AspNetCore.Hosting.csproj" />
     <ProjectReference Include="..\Shawarma.AspNetCore\Shawarma.AspNetCore.csproj" />
+
+    <!-- Analyze the whole library, even if attributed with "IsTrimmable" -->
+    <TrimmerRootAssembly Include="Shawarma.Abstractions" />
+    <TrimmerRootAssembly Include="Shawarma.AspNetCore" />
+    <TrimmerRootAssembly Include="Shawarma.AspNetCore.Hosting" />
   </ItemGroup>
 
 </Project>

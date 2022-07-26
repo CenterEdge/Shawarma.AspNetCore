@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
+    <IsTrimmable Condition=" '$(TargetFramework)' == 'net6.0' ">true</IsTrimmable>
 
     <Description>General abstractions for use within Shawarma.</Description>
   </PropertyGroup>
