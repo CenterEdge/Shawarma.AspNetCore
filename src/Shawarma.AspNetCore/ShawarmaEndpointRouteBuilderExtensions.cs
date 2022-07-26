@@ -1,5 +1,3 @@
-#if !NETSTANDARD2_0
-
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -45,5 +43,3 @@ namespace Shawarma.AspNetCore
             });
     }
 }
-
-#endif
