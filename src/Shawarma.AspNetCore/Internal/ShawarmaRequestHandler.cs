@@ -1,7 +1,8 @@
 using System;
+using System.IO.Pipelines;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -13,14 +14,9 @@ namespace Shawarma.AspNetCore.Internal
     /// </summary>
     internal class ShawarmaRequestHandler : IShawarmaRequestHandler
     {
-        private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            Converters =
-            {
-                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-            }
-        };
+        private static byte[]? _badRequest;
+        private static byte[] BadRequest => _badRequest ??=
+            new UTF8Encoding(false).GetBytes("Bad Request");
 
         private readonly IApplicationStateProvider _stateProvider;
         private readonly ILogger<ShawarmaRequestHandler> _logger;
@@ -64,7 +60,7 @@ namespace Shawarma.AspNetCore.Internal
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception in Shawarma GET");
-                httpContext.Response.StatusCode = 500;
+                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             }
         }
 
@@ -83,29 +79,48 @@ namespace Shawarma.AspNetCore.Internal
                     httpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
                 }
 
-                var state = await JsonSerializer.DeserializeAsync<ApplicationState>(request.Body, SerializerOptions, httpContext.RequestAborted);
+                var state = await JsonSerializer.DeserializeAsync(request.Body,
+                    ShawarmaSerializerContext.Primary.ApplicationState, httpContext.RequestAborted);
 
                 if (state is not null)
                 {
                     await _stateProvider.SetApplicationStateAsync(state);
-                }
 
-                // Reserialize the state onto the response
-                await ReturnState(httpContext.Response, state);
+                    // Reserialize the state onto the response
+                    await ReturnState(httpContext.Response, state);
+                }
+                else
+                {
+                    await ReturnBadRequest(httpContext.Response);
+                }
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Error deserializing request body.");
+
+                await ReturnBadRequest(httpContext.Response);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception in Shawarma POST");
-                httpContext.Response.StatusCode = 500;
+                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             }
         }
 
-        private Task ReturnState(HttpResponse response, ApplicationState? state)
+        private Task ReturnState(HttpResponse response, ApplicationState state)
         {
-            response.StatusCode = 200;
+            response.StatusCode = StatusCodes.Status200OK;
             response.ContentType = "application/json; charset=utf-8";
 
-            return JsonSerializer.SerializeAsync(response.Body, state, SerializerOptions, response.HttpContext.RequestAborted);
+            return JsonSerializer.SerializeAsync(response.Body, state, ShawarmaSerializerContext.Primary.ApplicationState, response.HttpContext.RequestAborted);
+        }
+
+        private ValueTask<FlushResult> ReturnBadRequest(HttpResponse response)
+        {
+            response.StatusCode = StatusCodes.Status400BadRequest;
+            response.ContentType = "text/plain; charset=utf-8";
+
+            return response.BodyWriter.WriteAsync(BadRequest, response.HttpContext.RequestAborted);
         }
     }
 }

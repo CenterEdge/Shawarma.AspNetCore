@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shawarma.AspNetCore", "Shawarma.AspNetCore\Shawarma.AspNetCore.csproj", "{3153CCEB-B378-4E64-B43F-CD662D068ABD}"
 EndProject
@@ -11,7 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shawarma.AspNetCore.Hosting
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shawarma.UnitTests", "Shawarma.UnitTests\Shawarma.UnitTests.csproj", "{5C6E63BD-7A42-4288-9DBA-F5E4B6E02E7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shawarma.Abstractions", "Shawarma.Abstractions\Shawarma.Abstractions.csproj", "{1C8EB778-F5AE-4531-A087-CEAA48637460}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shawarma.Abstractions", "Shawarma.Abstractions\Shawarma.Abstractions.csproj", "{1C8EB778-F5AE-4531-A087-CEAA48637460}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DA042DD-85F4-4294-A7CC-70A0FDB28520}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		nuget.config = nuget.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
