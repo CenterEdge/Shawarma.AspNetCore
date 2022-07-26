@@ -1,6 +1,8 @@
 using System;
+using System.ComponentModel.Design;
 using System.IO.Pipelines;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,6 +19,16 @@ namespace Shawarma.AspNetCore.Internal
         private static byte[]? _badRequest;
         private static byte[] BadRequest => _badRequest ??=
             new UTF8Encoding(false).GetBytes("Bad Request");
+
+        private static readonly MediaTypeHeaderValue JsonMediaType = new(MediaTypeNames.Application.Json)
+        {
+            CharSet = Encoding.UTF8.WebName
+        };
+
+        private static readonly MediaTypeHeaderValue PlainTextMediaType = new(MediaTypeNames.Text.Plain)
+        {
+            CharSet = Encoding.UTF8.WebName
+        };
 
         private readonly IApplicationStateProvider _stateProvider;
         private readonly ILogger<ShawarmaRequestHandler> _logger;
@@ -73,14 +85,46 @@ namespace Shawarma.AspNetCore.Internal
                 var request = httpContext.Request;
 
                 if (!MediaTypeHeaderValue.TryParse(request.ContentType, out var contentType) ||
-                    contentType.MediaType != "application/json" ||
-                    (contentType.CharSet != null && contentType.CharSet != "utf-8"))
+                    contentType.MediaType != JsonMediaType.MediaType)
                 {
                     httpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                    return;
                 }
 
-                var state = await JsonSerializer.DeserializeAsync(request.Body,
-                    ShawarmaSerializerContext.Primary.ApplicationState, httpContext.RequestAborted);
+                ApplicationState? state;
+                var charset = contentType.CharSet;
+                if (charset != null && charset != JsonMediaType.CharSet)
+                {
+#if NET6_0_OR_GREATER
+                    // For .NET 6, support transcoding if the request is not UTF-8 encoded
+
+                    Encoding encoding;
+
+                    // Remove at most a single set of quotes.
+                    if (charset.Length > 2 && charset[0] == '\"' && charset[^1] == '\"')
+                    {
+                        encoding = Encoding.GetEncoding(charset[1..^1]);
+                    }
+                    else
+                    {
+                        encoding = Encoding.GetEncoding(charset);
+                    }
+
+                    await using var transcodingStream =
+                        Encoding.CreateTranscodingStream(request.Body, encoding, Encoding.UTF8, leaveOpen: true);
+
+                    state = await JsonSerializer.DeserializeAsync(transcodingStream,
+                        ShawarmaSerializerContext.Primary.ApplicationState, httpContext.RequestAborted);
+#else
+                    httpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                    return;
+#endif
+                }
+                else
+                {
+                    state = await JsonSerializer.DeserializeAsync(request.Body,
+                        ShawarmaSerializerContext.Primary.ApplicationState, httpContext.RequestAborted);
+                }
 
                 if (state is not null)
                 {
@@ -107,18 +151,18 @@ namespace Shawarma.AspNetCore.Internal
             }
         }
 
-        private Task ReturnState(HttpResponse response, ApplicationState state)
+        private static Task ReturnState(HttpResponse response, ApplicationState state)
         {
             response.StatusCode = StatusCodes.Status200OK;
-            response.ContentType = "application/json; charset=utf-8";
+            response.ContentType = JsonMediaType.ToString();
 
             return JsonSerializer.SerializeAsync(response.Body, state, ShawarmaSerializerContext.Primary.ApplicationState, response.HttpContext.RequestAborted);
         }
 
-        private ValueTask<FlushResult> ReturnBadRequest(HttpResponse response)
+        private static ValueTask<FlushResult> ReturnBadRequest(HttpResponse response)
         {
             response.StatusCode = StatusCodes.Status400BadRequest;
-            response.ContentType = "text/plain; charset=utf-8";
+            response.ContentType = PlainTextMediaType.ToString();
 
             return response.BodyWriter.WriteAsync(BadRequest, response.HttpContext.RequestAborted);
         }
