@@ -4,17 +4,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.Options;
+using Shawarma.AspNetCore.Internal;
 
 namespace Shawarma.AspNetCore
 {
     /// <summary>
     /// Middleware component to intercept Shawarma-related requests.
     /// </summary>
+    [Obsolete(ShawarmaConstants.UseEndpointRoutingWarning)]
     public class ShawarmaMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IShawarmaRequestHandler _requestHandler;
-        private readonly ShawarmaOptions _options;
         private readonly TemplateMatcher _requestMatcher;
 
         public ShawarmaMiddleware(
@@ -32,7 +33,6 @@ namespace Shawarma.AspNetCore
         {
             _next = next;
             _requestHandler = requestHandler;
-            _options = options;
             _requestMatcher = new TemplateMatcher(TemplateParser.Parse(options.RouteTemplate),
                 options.RouteDefaults ?? new RouteValueDictionary());
         }

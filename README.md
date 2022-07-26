@@ -92,7 +92,8 @@ public class TestService : GenericShawarmaService
 
 ## Older .NET Core Versions
 
-Older versions of .NET Core are supported using middleware instead of endpoint routing.
+For applications not using endpoint routing, middleware may be used instead. However, this approach
+is considered obsolete.
 
 ```cs
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
