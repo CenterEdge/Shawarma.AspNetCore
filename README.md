@@ -14,6 +14,31 @@ For more details about Shawarma, see <https://github.com/CenterEdge/shawarma>.
 ## Usage
 
 ```cs
+// This is an example in Program.cs using the Minimal API approach
+using Shawarma.AspNetCore;
+using Shawarma.AspNetCore.Hosting;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddShawarmaHosting()
+    .AddShawarmaService<TestService>();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.MapShawarma();
+app.MapGet("/", () => "Hello World!");
+
+await app.RunAsync();
+```
+
+```cs
+// Use this approach in Startup.cs if you are not using the Minimal API approach
 public void ConfigureServices(IServiceCollection services)
 {
     services
@@ -67,7 +92,7 @@ public class TestService : GenericShawarmaService
 
 ## Older .NET Core Versions
 
-Older versions of .NET Core (2.1 and 3.1) are supported using middleware instead of endpoint routing.
+Older versions of .NET Core are supported using middleware instead of endpoint routing.
 
 ```cs
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -86,3 +111,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     });
 }
 ```
+
+## Developing
+
+See [Developing Shawarma.AspNetCore](./Developing.md) for instructions for development.
