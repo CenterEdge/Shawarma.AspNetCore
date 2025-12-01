@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
-    <IsTrimmable Condition=" '$(TargetFramework)' == 'net6.0' ">true</IsTrimmable>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsTrimmable>true</IsTrimmable>
+    <IsAotCompatible>true</IsAotCompatible>
+    <RootNamespace>Shawarma</RootNamespace>
 
     <Description>General abstractions for use within Shawarma.</Description>
   </PropertyGroup>

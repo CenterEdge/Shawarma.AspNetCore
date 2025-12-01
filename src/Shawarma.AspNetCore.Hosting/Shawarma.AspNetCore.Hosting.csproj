@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
-    <IsTrimmable Condition=" '$(TargetFramework)' == 'net6.0' ">true</IsTrimmable>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsTrimmable>true</IsTrimmable>
+    <IsAotCompatible>true</IsAotCompatible>
 
     <Description>ASP.NET Core library for starting/stopping background services based on Shawarma application state.</Description>
   </PropertyGroup>

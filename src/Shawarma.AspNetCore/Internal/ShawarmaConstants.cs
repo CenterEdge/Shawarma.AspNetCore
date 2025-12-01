@@ -1,11 +1,8 @@
-using System;
+namespace Shawarma.AspNetCore.Internal;
 
-namespace Shawarma.AspNetCore.Internal
+internal static class ShawarmaConstants
 {
-    internal static class ShawarmaConstants
-    {
-        public const string DefaultRouteTemplate = "applicationstate";
+    public const string DefaultRouteTemplate = "applicationstate";
 
-        public const string UseEndpointRoutingWarning = "Use endpoint routing and MapShawarma() instead of middleware.";
-    }
+    public const string UseEndpointRoutingWarning = "Use endpoint routing and MapShawarma() instead of middleware.";
 }
