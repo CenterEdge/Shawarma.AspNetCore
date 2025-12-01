@@ -6,6 +6,7 @@
     <File Path="nuget.config" />
   </Folder>
   <Project Path="Shawarma.Abstractions/Shawarma.Abstractions.csproj" />
+  <Project Path="Shawarma.Aspire.Hosting/Shawarma.Aspire.Hosting.csproj" />
   <Project Path="Shawarma.AspNetCore.Hosting/Shawarma.AspNetCore.Hosting.csproj" />
   <Project Path="Shawarma.AspNetCore.Test/Shawarma.AspNetCore.Test.csproj" />
   <Project Path="Shawarma.AspNetCore/Shawarma.AspNetCore.csproj" />
