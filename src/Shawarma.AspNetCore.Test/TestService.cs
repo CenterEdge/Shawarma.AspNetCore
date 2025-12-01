@@ -1,27 +1,16 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Shawarma.AspNetCore.Hosting;
 
-namespace Shawarma.AspNetCore.Test
+namespace Shawarma.AspNetCore.Test;
+
+public class TestService(ILogger<TestService> logger) : GenericShawarmaService(logger)
 {
-    public class TestService : GenericShawarmaService
+    protected override Task StartInternalAsync(CancellationToken cancellationToken)
     {
-        // ReSharper disable once SuggestBaseTypeForParameter
-        public TestService(ILogger<TestService> logger)
-            : base(logger)
-        {
-        }
+        return Task.CompletedTask;
+    }
 
-        protected override Task StartInternalAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected override Task StopInternalAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+    protected override Task StopInternalAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

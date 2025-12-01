@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
 using Shawarma.AspNetCore;
 using Shawarma.AspNetCore.Hosting;
 using Shawarma.AspNetCore.Test;
