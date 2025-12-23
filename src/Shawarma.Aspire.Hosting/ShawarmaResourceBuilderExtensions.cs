@@ -82,10 +82,10 @@ public static class ShawarmaResourceBuilderExtensions
             var targetRunning = false;
             builder.ApplicationBuilder.Eventing.Subscribe<BeforeStartEvent>((e, ct) =>
             {
-                var rns = e.Services.GetRequiredService<ResourceNotificationService>();
+                var resourceNotificationService = e.Services.GetRequiredService<ResourceNotificationService>();
                 _ = Task.Run(async () =>
                 {
-                    await foreach (var resourceEvent in rns.WatchAsync(ct).WithCancellation(ct))
+                    await foreach (var resourceEvent in resourceNotificationService.WatchAsync(ct).WithCancellation(ct))
                     {
                         if (resourceEvent.Resource == (IResource)builder.Resource)
                         {
