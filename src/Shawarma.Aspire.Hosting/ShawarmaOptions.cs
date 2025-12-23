@@ -1,5 +1,8 @@
 namespace Shawarma.Aspire.Hosting;
 
+/// <summary>
+/// Provides configuration options for integrating Shawarma services within an Aspire hosting environment.
+/// </summary>
 public class ShawarmaOptions
 {
     internal static ShawarmaOptions Default { get; } = new();
