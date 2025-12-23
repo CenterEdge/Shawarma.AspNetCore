@@ -22,9 +22,7 @@ public static class ShawarmaResourceBuilderExtensions
         {
             // Find a matching endpoint using the name and if not an HTTP endpoint or not found throw an exception.
             var endpoints = builder.Resource.GetEndpoints();
-            EndpointReference? matchingEndpoint = null;
-
-            matchingEndpoint = endpoints.FirstOrDefault(e => string.Equals(e.EndpointName, endpointName, StringComparison.OrdinalIgnoreCase));
+            EndpointReference? matchingEndpoint = endpoints.FirstOrDefault(e => string.Equals(e.EndpointName, endpointName, StringComparison.OrdinalIgnoreCase));
             if (matchingEndpoint is not null)
             {
                 if (!s_httpSchemes.Contains(matchingEndpoint.Scheme, StringComparer.OrdinalIgnoreCase))
