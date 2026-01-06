@@ -1,0 +1,16 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shawarma.AspNetCore.Test\Shawarma.AspNetCore.Test.csproj" />
+    <ProjectReference Include="..\Shawarma.Aspire.Hosting\Shawarma.Aspire.Hosting.csproj" IsAspireProjectResource="false" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>d8f997f4-f93a-4cb3-a34a-25c579facfa4</UserSecretsId>
+  </PropertyGroup>
+
+</Project>

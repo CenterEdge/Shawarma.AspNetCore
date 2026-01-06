@@ -5,10 +5,13 @@
     <File Path="Directory.Packages.props" />
     <File Path="nuget.config" />
   </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Shawarma.Aspire.Hosting/Shawarma.Aspire.Hosting.csproj" />
+    <Project Path="Shawarma.AspNetCore.Test.AppHost/Shawarma.AspNetCore.Test.AppHost.csproj" />
+    <Project Path="Shawarma.AspNetCore.Test/Shawarma.AspNetCore.Test.csproj" />
+    <Project Path="Shawarma.UnitTests/Shawarma.UnitTests.csproj" />
+  </Folder>
   <Project Path="Shawarma.Abstractions/Shawarma.Abstractions.csproj" />
-  <Project Path="Shawarma.Aspire.Hosting/Shawarma.Aspire.Hosting.csproj" />
   <Project Path="Shawarma.AspNetCore.Hosting/Shawarma.AspNetCore.Hosting.csproj" />
-  <Project Path="Shawarma.AspNetCore.Test/Shawarma.AspNetCore.Test.csproj" />
   <Project Path="Shawarma.AspNetCore/Shawarma.AspNetCore.csproj" />
-  <Project Path="Shawarma.UnitTests/Shawarma.UnitTests.csproj" />
 </Solution>
