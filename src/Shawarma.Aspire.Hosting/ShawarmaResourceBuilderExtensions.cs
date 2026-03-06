@@ -43,14 +43,32 @@ public static class ShawarmaResourceBuilderExtensions
         /// <summary>
         /// Add commands to enable and disable Shawarma services for the resource.
         /// </summary>
+        /// <param name="autoStart">Automatically enable Shawarma services when the resource is ready.</param>
+        /// <returns>The <see cref="IResourceBuilder{T}"/>.</returns>
+        public IResourceBuilder<T> WithShawarma(bool autoStart = false) =>
+            builder.WithShawarma(null, autoStart);
+
+        /// <summary>
+        /// Add commands to enable and disable Shawarma services for the resource.
+        /// </summary>
+        /// <param name="options">Optional configuration for Shawarma.</param>
+        /// <returns>The <see cref="IResourceBuilder{T}"/>.</returns>
+        public IResourceBuilder<T> WithShawarma(ShawarmaOptions? options) =>
+            builder.WithShawarma((Func<EndpointReference>?)null, options);
+
+        /// <summary>
+        /// Add commands to enable and disable Shawarma services for the resource.
+        /// </summary>
         /// <param name="endpointName">The name of the HTTP endpoint on this resource to send the request to when the command is invoked.</param>
         /// <param name="autoStart">Automatically enable Shawarma services when the resource is ready.</param>
         /// <returns>The <see cref="IResourceBuilder{T}"/>.</returns>
-        public IResourceBuilder<T> WithShawarma([EndpointName] string? endpointName = null, bool autoStart = false) =>
-            builder.WithShawarma(endpointName, new ShawarmaOptions()
-            {
-                AutoStart = autoStart
-            });
+        public IResourceBuilder<T> WithShawarma([EndpointName] string? endpointName, bool autoStart = false) =>
+            builder.WithShawarma(endpointName, autoStart
+               ? new ShawarmaOptions()
+               {
+                   AutoStart = true
+               }
+               : ShawarmaOptions.Default);
 
         /// <summary>
         /// Add commands to enable and disable Shawarma services for the resource.
@@ -58,7 +76,7 @@ public static class ShawarmaResourceBuilderExtensions
         /// <param name="endpointName">The name of the HTTP endpoint on this resource to send the request to when the command is invoked.</param>
         /// <param name="options">Optional configuration for Shawarma.</param>
         /// <returns>The <see cref="IResourceBuilder{T}"/>.</returns>
-        public IResourceBuilder<T> WithShawarma([EndpointName] string? endpointName = null, ShawarmaOptions? options = null) =>
+        public IResourceBuilder<T> WithShawarma([EndpointName] string? endpointName, ShawarmaOptions? options) =>
             builder.WithShawarma(
                 endpointSelector: endpointName is not null
                     ? NamedEndpointSelector(builder, endpointName)
