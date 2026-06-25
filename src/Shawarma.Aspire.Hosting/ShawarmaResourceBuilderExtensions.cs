@@ -11,9 +11,6 @@ namespace Shawarma.Aspire.Hosting;
 /// </summary>
 public static class ShawarmaResourceBuilderExtensions
 {
-    private const string EnableShawarmaCommandName = "enableShawarma";
-    private const string DisableShawarmaCommandName = "disableShawarma";
-
     private static readonly string[] s_httpSchemes = ["https", "http"];
 
     private static Func<EndpointReference> NamedEndpointSelector<TResource>(IResourceBuilder<TResource> builder, string endpointName)
@@ -141,7 +138,7 @@ public static class ShawarmaResourceBuilderExtensions
                     path: options.ApplicationStatePath,
                     displayName: "Start Shawarma Services",
                     endpointSelector: endpointSelector,
-                    commandName: EnableShawarmaCommandName,
+                    commandName: KnownShawarmaCommands.EnableShawarma,
                     commandOptions: new HttpCommandOptions
                     {
                         Method = HttpMethod.Post,
@@ -179,7 +176,7 @@ public static class ShawarmaResourceBuilderExtensions
                     path: options.ApplicationStatePath,
                     displayName: "Stop Shawarma Services",
                     endpointSelector: endpointSelector,
-                    commandName: DisableShawarmaCommandName,
+                    commandName: KnownShawarmaCommands.DisableShawarma,
                     commandOptions: new HttpCommandOptions
                     {
                         Method = HttpMethod.Post,
@@ -224,7 +221,7 @@ public static class ShawarmaResourceBuilderExtensions
                 {
                     var commandService = e.Services.GetRequiredService<ResourceCommandService>();
 
-                    var result = await commandService.ExecuteCommandAsync(resource, EnableShawarmaCommandName, cancellationToken);
+                    var result = await commandService.ExecuteCommandAsync(resource, KnownShawarmaCommands.EnableShawarma, cancellationToken);
                     if (result is { Success: false, Canceled: false })
                     {
                         throw new InvalidOperationException($"Failed to enable Shawarma services on startup: {result.ErrorMessage}");
