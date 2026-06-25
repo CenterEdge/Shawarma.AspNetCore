@@ -8,10 +8,10 @@ public static class KnownShawarmaCommands
     /// <summary>
     /// The command name for enabling Shawarma services.
     /// </summary>
-    public const string EnableShawarma = "enableShawarma";
+    public const string EnableShawarma = "enable-shawarma";
 
     /// <summary>
     /// The command name for disabling Shawarma services.
     /// </summary>
-    public const string DisableShawarma = "disableShawarma";
+    public const string DisableShawarma = "disable-shawarma";
 }
