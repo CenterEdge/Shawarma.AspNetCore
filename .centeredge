@@ -1,5 +1,10 @@
 {
   "disabledValidationRules": [
     "jira-issue-reference"
-  ]
+  ],
+  "dependabot": {
+    "project": "PHNX",
+    "team": "Valhalla",
+    "epic": "PHNX-18543"
+  }
 }
